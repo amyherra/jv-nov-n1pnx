@@ -810,7 +810,7 @@
     let L="", R="";
     if(now<land){
       const diff=land-now, d=Math.floor(diff/864e5), h=Math.floor(diff/36e5)%24, m=Math.floor(diff/6e4)%60;
-      L=`<div class="k">Until you land</div><div class="big">${d}<small>d</small> ${h}<small>h</small> ${m}<small>m</small></div><div class="sub">Can't wait to see you.</div>`;
+      L=`<div class="k">Until you land</div><div class="big">${d}<small>d</small> ${h}<small>h</small> ${m}<small>m</small></div><div class="sub">I'll be the one waving at DTW.</div>`;
       R=`<h3>The first night</h3><ul class="today">${eventsFor("tue").map((e,i)=>`<li class="${i===0?"next":""}"><time>${fmt(e.t)}</time><span>${e.name}</span></li>`).join("")}</ul>
       <div class="edit">Flight delayed? Change the landing time <input type="datetime-local" id="arrive" value="${S.arrive}"></div>`;
     } else if(now>DEPART){
