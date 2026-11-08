@@ -449,7 +449,7 @@
 <header class="hero">
   <div class="wrap">
     <h1>Javi's week<br>in <i>Michigan</i></h1>
-    <p class="lede">The week comes in two parts. Part one is Ann Arbor: Bell's Diner, tapas, the market, a game, Cane's. Part two is a road trip to Columbus with Annette &amp; Nico to see John Summit. Then we have a slow weekend at home before you fly back Monday.</p>
+    <p class="lede">I can't wait to see you. Bell's Diner, John Summit, and a whole week of us.</p>
 
     <div class="hero-grid">
       <div>
@@ -810,7 +810,7 @@
     let L="", R="";
     if(now<land){
       const diff=land-now, d=Math.floor(diff/864e5), h=Math.floor(diff/36e5)%24, m=Math.floor(diff/6e4)%60;
-      L=`<div class="k">Until you land</div><div class="big">${d}<small>d</small> ${h}<small>h</small> ${m}<small>m</small></div><div class="sub">I'll be the one waving at DTW.</div>`;
+      L=`<div class="k">Until you land</div><div class="big">${d}<small>d</small> ${h}<small>h</small> ${m}<small>m</small></div><div class="sub">Can't wait to see you.</div>`;
       R=`<h3>The first night</h3><ul class="today">${eventsFor("tue").map((e,i)=>`<li class="${i===0?"next":""}"><time>${fmt(e.t)}</time><span>${e.name}</span></li>`).join("")}</ul>
       <div class="edit">Flight delayed? Change the landing time <input type="datetime-local" id="arrive" value="${S.arrive}"></div>`;
     } else if(now>DEPART){
