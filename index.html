@@ -209,6 +209,13 @@
   @media (max-width:860px){.rituals{grid-template-columns:1fr}}
   .side-rit{display:grid;gap:16px}
   .csub{margin:-4px 0 14px;color:var(--ink2);font-size:14.5px}
+  .gtabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 14px}
+  .gt{background:transparent;border:1px solid var(--rule);border-radius:99px;padding:7px 8px;font-size:13px;font-weight:600;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .gt span{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);margin-right:5px}
+  .gt:hover{border-color:var(--ink)}
+  .gt.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .gt.on span{color:#cbc1b3}
+  @media (max-width:520px){.gtabs{grid-template-columns:repeat(2,1fr)}}
   .cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
   .tile{background:#e9e1d1;border:0;border-radius:6px;height:68px;font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);padding:4px;transition:transform .15s,background .15s;line-height:1.1}
   @media (max-width:520px){.tile{height:58px;font-size:11px}}
@@ -553,7 +560,8 @@
       <div class="rit conn">
         <div class="k">Morning ritual · special edition 🤎💋</div>
         <h4>Connections: the Amy &amp; Javi edition</h4>
-        <p class="csub">Find four groups of four. Every word is about us.</p>
+        <p class="csub">Four puzzles, all about us. Find four groups of four.</p>
+        <div class="gtabs" id="gtabs"></div>
         <div class="solved" id="solved"></div>
         <div class="cgrid" id="cgrid"></div>
         <div class="cfoot">
@@ -1131,14 +1139,37 @@
     if(nx) nx.addEventListener("click",()=>{ if(idx<DAYS.length-1){ curDay=DAYS[idx+1].id; renderDayTabs(); renderDayPanel(); }});
   }
   // ---------- Connections: about us ----------
-  const GROUPS=[
-    {name:"In a Bell's Diner bibimbap", w:["RICE","EGG","GOCHUJANG","SPINACH"]},
-    {name:"Only in Ann Arbor", w:["DIAG","ARB","KERRYTOWN","BIG HOUSE"]},
-    {name:"John Summit night", w:["COLUMBUS","SCHOTT","RAVE","CTRL ESCAPE"]},
-    {name:"Happens in bed this week", w:["TITAN","BESITOS","CONNECTIONS","BREAKFAST"]}
+  const GAMES=[
+    {tab:"This week", groups:[
+      {name:"In a Bell's Diner bibimbap", w:["RICE","EGG","GOCHUJANG","SPINACH"]},
+      {name:"Only in Ann Arbor", w:["DIAG","ARB","KERRYTOWN","BIG HOUSE"]},
+      {name:"John Summit night", w:["COLUMBUS","SCHOTT","RAVE","CTRL ESCAPE"]},
+      {name:"Happens in bed this week", w:["TITAN","BESITOS","CONNECTIONS","BREAKFAST"]}]},
+    {tab:"Miami", groups:[
+      {name:"Javi's Miami spots", w:["PALACIO","POLLO TROPICAL","VERSAILLES","SERGIO'S"]},
+      {name:"Ventanita order", w:["CROQUETA","PASTELITO","CAFECITO","MEDIANOCHE"]},
+      {name:"Jugos at Palacio", w:["MAMEY","GUANÁBANA","MANGO","PAPAYA"]},
+      {name:"Miami neighborhoods", w:["HIALEAH","WYNWOOD","DORAL","BRICKELL"]}]},
+    {tab:"Us", groups:[
+      {name:"What I call you", w:["BEBE","AMOR","MI VIDA","CARIÑO"]},
+      {name:"Survey Corps", w:["EREN","LEVI","MIKASA","ARMIN"]},
+      {name:"Very New York", w:["LGA","SUBWAY","BODEGA","YELLOW CAB"]},
+      {name:"Getting to me", w:["DTW","DELTA","WINDOW SEAT","CARRY-ON"]}]},
+    {tab:"Date night", groups:[
+      {name:"Movie snacks", w:["POPCORN","SOUR PATCH","NACHOS","ICEE"]},
+      {name:"Ways to say it", w:["TE AMO","TE QUIERO","LOVE YOU","XOXO"]},
+      {name:"Go Blue", w:["MAIZE","WOLVERINE","VICTORS","BIG TEN"]},
+      {name:"Cozy night in", w:["BLANKET","CANDLES","PAJAMAS","CUDDLES"]}]}
   ];
+  let GI=0; let GROUPS=GAMES[0].groups;
+  S.wins=S.wins||{};
+
   let C = {tiles:[], sel:[], solved:[], mist:4, guesses:[]};
   function cShuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+  function renderGTabs(){
+    $("gtabs").innerHTML=GAMES.map((g,i)=>`<button class="gt ${i===GI?"on":""}" data-i="${i}"><span>${i+1}</span>${g.tab}${S.wins[i]?" 💋":""}</button>`).join("");
+    $("gtabs").querySelectorAll(".gt").forEach(b=>b.addEventListener("click",()=>{ GI=+b.dataset.i; GROUPS=GAMES[GI].groups; renderGTabs(); cInit(); }));
+  }
   function cInit(){ C={tiles:cShuffle(GROUPS.flatMap(g=>g.w)), sel:[], solved:[], mist:4, guesses:[]}; $("cmsg").textContent=""; cRender(); }
   function cRender(){
     $("solved").innerHTML=C.solved.map(gi=>`<div class="grp g${gi}"><b>${GROUPS[gi].name}</b><span>${GROUPS[gi].w.join(", ")}</span></div>`).join("");
@@ -1160,7 +1191,7 @@
     if(gi>-1){
       C.solved.push(gi); C.tiles=C.tiles.filter(w=>!GROUPS[gi].w.includes(w)); C.sel=[]; cRender();
       const msgs=["Yes!! You know us.","Look at you go.","Okay, smarty.",""];
-      if(C.solved.length===4){ $("cmsg").textContent="Perfect. You know us by heart 💛 (Point Javi.)"; confetti(60,["#f2d675","#a9c46c","#b3c6ec","#c497cf"]); }
+      if(C.solved.length===4){ S.wins[GI]=1; save(); renderGTabs(); $("cmsg").textContent = GI<GAMES.length-1 ? "Perfect 💛 On to the next one →" : "All four?! You know us by heart 💛"; confetti(60,["#f2d675","#a9c46c","#b3c6ec","#c497cf"]); }
       else $("cmsg").textContent=msgs[C.solved.length-1];
     } else {
       const oneAway=GROUPS.some(g=>C.sel.filter(w=>g.w.includes(w)).length===3);
@@ -1174,7 +1205,7 @@
   });
   const retry=document.createElement("button"); retry.className="btn"; retry.textContent="New game"; retry.addEventListener("click",cInit);
   $("cClear").parentElement.prepend(retry);
-  cInit();
+  renderGTabs(); cInit();
 
   // ---------- AoT ----------
   const CHARS=[
