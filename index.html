@@ -210,7 +210,7 @@
   .side-rit{display:grid;gap:16px}
   .csub{margin:-4px 0 14px;color:var(--ink2);font-size:14.5px}
   .gtabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 14px}
-  .gt{background:transparent;border:1px solid var(--rule);border-radius:99px;padding:7px 8px;font-size:13px;font-weight:600;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .gt{background:transparent;border:1px solid var(--rule);border-radius:99px;padding:7px 6px;font-size:12.5px;font-weight:600;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .gt span{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);margin-right:5px}
   .gt:hover{border-color:var(--ink)}
   .gt.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
@@ -560,7 +560,7 @@
       <div class="rit conn">
         <div class="k">Morning ritual · special edition 🤎💋</div>
         <h4>Connections: the Amy &amp; Javi edition</h4>
-        <p class="csub">Four puzzles, all about us. Find four groups of four.</p>
+        <p class="csub">Four puzzles about us, easiest to trickiest. Watch out for red herrings, like the real one.</p>
         <div class="gtabs" id="gtabs"></div>
         <div class="solved" id="solved"></div>
         <div class="cgrid" id="cgrid"></div>
@@ -1145,22 +1145,23 @@
       {name:"Only in Ann Arbor", w:["DIAG","ARB","KERRYTOWN","BIG HOUSE"]},
       {name:"John Summit night", w:["COLUMBUS","SCHOTT","RAVE","CTRL ESCAPE"]},
       {name:"Happens in bed this week", w:["TITAN","BESITOS","CONNECTIONS","BREAKFAST"]}]},
-    {tab:"Miami", groups:[
+    {tab:"🇲🇽 × 🇨🇺", groups:[
+      {name:"Amy's mom would make it", w:["MOLE","POZOLE","CHILAQUILES","ELOTE"]},
+      {name:"Javi's abuela would make it", w:["ROPA VIEJA","PICADILLO","MOROS","TOSTONES"]},
       {name:"Javi's Miami spots", w:["PALACIO","POLLO TROPICAL","VERSAILLES","SERGIO'S"]},
-      {name:"Ventanita order", w:["CROQUETA","PASTELITO","CAFECITO","MEDIANOCHE"]},
-      {name:"Jugos at Palacio", w:["MAMEY","GUANÁBANA","MANGO","PAPAYA"]},
-      {name:"Miami neighborhoods", w:["HIALEAH","WYNWOOD","DORAL","BRICKELL"]}]},
-    {tab:"Us", groups:[
-      {name:"What I call you", w:["BEBE","AMOR","MI VIDA","CARIÑO"]},
-      {name:"Survey Corps", w:["EREN","LEVI","MIKASA","ARMIN"]},
-      {name:"Very New York", w:["LGA","SUBWAY","BODEGA","YELLOW CAB"]},
-      {name:"Getting to me", w:["DTW","DELTA","WINDOW SEAT","CARRY-ON"]}]},
-    {tab:"Date night", groups:[
-      {name:"Movie snacks", w:["POPCORN","SOUR PATCH","NACHOS","ICEE"]},
+      {name:"___ con leche / de leche", w:["DULCE","CAFÉ","ARROZ","TRES"]}]},
+    {tab:"SWE × Design", groups:[
+      {name:"Amy's design toolkit", w:["FIGMA","KERNING","PALETTE","GRID"]},
+      {name:"Javi's languages", w:["PYTHON","JAVA","RUBY","SWIFT"]},
+      {name:"Git commands that describe us", w:["COMMIT","MERGE","PUSH","PULL"]},
+      {name:"___BOARD", w:["MOOD","KEY","STORY","DASH"]}]},
+    {tab:"NYC × A2", groups:[
+      {name:"Javi's city", w:["BRONX","QUEENS","BROOKLYN","MANHATTAN"]},
+      {name:"Amy's school", w:["MAIZE","WOLVERINE","VICTORS","BIG TEN"]},
       {name:"Ways to say it", w:["TE AMO","TE QUIERO","LOVE YOU","XOXO"]},
-      {name:"Go Blue", w:["MAIZE","WOLVERINE","VICTORS","BIG TEN"]},
-      {name:"Cozy night in", w:["BLANKET","CANDLES","PAJAMAS","CUDDLES"]}]}
+      {name:"French ___", w:["KISS","TOAST","FRIES","PRESS"]}]}
   ];
+
   let GI=0; let GROUPS=GAMES[0].groups;
   S.wins=S.wins||{};
 
@@ -1203,7 +1204,7 @@
       } else cRender();
     }
   });
-  const retry=document.createElement("button"); retry.className="btn"; retry.textContent="New game"; retry.addEventListener("click",cInit);
+  const retry=document.createElement("button"); retry.className="btn"; retry.textContent="Next puzzle →"; retry.addEventListener("click",()=>{ GI=(GI+1)%GAMES.length; GROUPS=GAMES[GI].groups; renderGTabs(); cInit(); });
   $("cClear").parentElement.prepend(retry);
   renderGTabs(); cInit();
 
