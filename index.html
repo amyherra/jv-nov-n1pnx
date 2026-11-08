@@ -731,9 +731,9 @@
     {id:"dixboro", name:"The Dixboro Project", tag:"Date night", day:"sat", t:"17:00",
      body:"A historic farmhouse property just outside town with a farm-to-table restaurant, a café and grounds to wander.",
      tip:"Get there by 4:45 to walk the grounds before it gets dark.", meta:"5400 Plymouth Rd"},
-    {id:"theatre", name:"Michigan Theater", tag:"Movie night", day:"sun", t:"19:00",
+    {id:"theatre", name:"Michigan Theater", tag:"Movie night · you pick", day:"sun", t:"19:00",
      body:"A 1920s movie palace on Liberty St with a gilded ceiling. Any movie here feels like an event.",
-     tip:"Get popcorn and look up before the lights go down.", meta:"603 E Liberty St"},
+     tip:"You pick the movie. The options are in Sunday's plan (03 Day by day).", meta:"603 E Liberty St · marquee-arts.org"},
     {id:"tix", name:"Student ticket surprise", tag:"Wildcard", day:"sun", t:"14:00",
      body:"A bonus plan using student ticket deals. It's a secret for now.",
      tip:"You'll find out when you find out.", meta:"Flexible"},
@@ -1060,7 +1060,7 @@
       {t:"14:00", b:"Student ticket surprise", s:"I'm not telling you. You'll love it.", star:1},
       {t:"16:30", b:"Michigan merch run", s:"Get you something maize and blue to take home."},
       {t:"17:30", b:"Dinner downtown", s:"Somewhere cozy on Main or Liberty."},
-      {t:"19:00", b:"Michigan Theater", s:"Popcorn, a gilded ceiling, and you."},
+      {t:"19:00", b:"Movie night: you pick the movie", s:"Popcorn and a gilded ceiling. Here's what's showing at the Michigan and State this week. Tap one:", pick:"movie"},
       {t:"21:30", b:"Last night: phones off, lights off", s:"Coupon No. 007. All night. Then the AoT episode we've been saving.", m:"spicy"}]},
     mon:{note:"Day 7. The trip starts and ends with Bell's. Not crying, you're crying.", items:[
       {t:"08:30", b:"Extra-long goodbye cuddle", s:"Snooze button, but for besitos.", m:"cute"},
@@ -1071,6 +1071,15 @@
       {t:"15:45", b:"Leave for DTW", s:"Basic fare, so give yourself time.", fixed:1},
       {t:"17:58", b:"DL2604 to LGA", s:"Text me when you land at 7:49. I miss you already.", fixed:1}]}
   };
+  const MOVIES=[
+    {k:"twinpeaks", l:"🎬 Twin Peaks: Fire Walk With Me · Sun 7pm · Michigan"},
+    {k:"godzilla", l:"🦖 Godzilla Minus Zero · State"},
+    {k:"wildwood", l:"🌲 Wildwood · State"},
+    {k:"sense", l:"💌 Sense and Sensibility · State"},
+    {k:"chrono", l:"⏳ Chronovisor · Michigan"},
+    {k:"paris", l:"🌵 Paris, Texas · Thu 8pm · Michigan"}
+  ];
+  S.movie=S.movie||"";
   const PICKS=[{k:"canes",l:"🍗 Cane's"},{k:"fleet",l:"🍳 Fleetwood Diner (24/7)"},{k:"pizza",l:"🍕 Pizza in bed"},{k:"surprise",l:"🎲 Surprise me"}];
   S.pick=S.pick||"canes";
   const MOOD={cute:"♡ cute",spicy:"🔥 spicy",aot:"⚔️ AoT",conn:"🟨 Connections"};
@@ -1103,10 +1112,11 @@
       <ol class="sched">${sc.items.map((it,i)=>`
         <li class="${it.fixed?"fixed":""} ${it.star?"star":""} ${i===nowIdx?"now":""} ${isToday&&i<nowIdx?"past":""}">
           <time>${fmt(it.t)}</time>
-          <div class="ev"><b>${it.b}${it.star?'<span class="pill ours">highlight</span>':""}${it.fixed?'<span class="pill fix">fixed</span>':""}${i===nowIdx?'<span class="pill nowp">now</span>':""}${it.m?`<span class="pill mood ${it.m}">${MOOD[it.m]}</span>`:""}</b><small>${it.s}</small>${it.pick?`<div class="picks">${PICKS.map(p=>`<button class="pk ${S.pick===p.k?"on":""}" data-k="${p.k}">${p.l}</button>`).join("")}</div>`:""}${it.link?`<a href="${it.link}" target="_blank" rel="noopener">schedule ↗</a>`:""}</div>
+          <div class="ev"><b>${it.b}${it.star?'<span class="pill ours">highlight</span>':""}${it.fixed?'<span class="pill fix">fixed</span>':""}${i===nowIdx?'<span class="pill nowp">now</span>':""}${it.m?`<span class="pill mood ${it.m}">${MOOD[it.m]}</span>`:""}</b><small>${it.s}</small>${it.pick==="movie"?`<div class="picks">${MOVIES.map(p=>`<button class="pk mv ${S.movie===p.k?"on":""}" data-k="${p.k}">${p.l}</button>`).join("")}</div><a href="https://marquee-arts.org/all-films" target="_blank" rel="noopener">see all showtimes + tickets ↗</a>`:it.pick?`<div class="picks">${PICKS.map(p=>`<button class="pk ${S.pick===p.k?"on":""}" data-k="${p.k}">${p.l}</button>`).join("")}</div>`:""}${it.link?`<a href="${it.link}" target="_blank" rel="noopener">schedule ↗</a>`:""}</div>
         </li>`).join("")}</ol>`;
     $("dpanel").style.animation="none"; $("dpanel").offsetHeight; $("dpanel").style.animation="";
-    $("dpanel").querySelectorAll(".pk").forEach(b=>b.addEventListener("click",()=>{ S.pick=b.dataset.k; save(); renderDayPanel(); toast(b.dataset.k==="surprise"?"Okay, I'll surprise you 😏":"Night one: "+b.textContent); }));
+    $("dpanel").querySelectorAll(".pk.mv").forEach(b=>b.addEventListener("click",e=>{ e.stopImmediatePropagation(); S.movie=b.dataset.k; save(); renderDayPanel(); toast("Movie picked: "+b.textContent.replace(/^\S+\s/,"").split(" · ")[0]); }));
+    $("dpanel").querySelectorAll(".pk:not(.mv)").forEach(b=>b.addEventListener("click",()=>{ S.pick=b.dataset.k; save(); renderDayPanel(); toast(b.dataset.k==="surprise"?"Okay, I'll surprise you 😏":"Night one: "+b.textContent); }));
     const pv=$("dprev"), nx=$("dnext");
     if(pv) pv.addEventListener("click",()=>{ if(idx>0){ curDay=DAYS[idx-1].id; renderDayTabs(); renderDayPanel(); }});
     if(nx) nx.addEventListener("click",()=>{ if(idx<DAYS.length-1){ curDay=DAYS[idx+1].id; renderDayTabs(); renderDayPanel(); }});
