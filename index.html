@@ -30,11 +30,12 @@
   /* ---------- masthead ---------- */
   .mast{border-bottom:1px solid var(--ink);padding:18px 0 12px}
   .mast .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
-  .hero{padding:44px 0 30px}
-  .hero h1{font-size:clamp(52px,8.4vw,112px);line-height:.92}
+  .hero{padding:36px 0 24px}
+  @media (max-width:600px){.mast .wrap span:nth-child(2){display:none}.mast .wrap{flex-wrap:nowrap}.hero{padding-top:24px}}
+  .hero h1{font-size:clamp(48px,6.2vw,92px);line-height:.92}
   .hero h1 i{color:var(--cherry)}
-  .hero .lede{max-width:640px;font-size:19px;color:var(--ink2);margin:20px 0 0}
-  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;margin-top:40px;align-items:start}
+  .hero .lede{max-width:520px;font-size:19px;color:var(--ink2);margin:16px 0 28px}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:start}
   @media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:36px}}
 
   /* ticket */
@@ -65,7 +66,7 @@
 
   /* photos */
   .photos{position:relative}
-  .stack{position:relative;height:430px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .stack{position:relative;height:400px;margin-top:8px;cursor:pointer;-webkit-tap-highlight-color:transparent}
   .pol{position:absolute;left:50%;top:46%;background:#fffdf9;padding:11px 11px 46px;box-shadow:0 1px 2px rgba(0,0,0,.12),0 16px 30px -14px rgba(40,25,10,.5);transition:transform .6s cubic-bezier(.25,1.2,.45,1)}
   .pol img{display:block;width:100%;height:auto}
   .pol .ph-cap{position:absolute;left:0;right:0;bottom:8px;font-family:"Nanum Pen Script",cursive;font-size:25px;color:var(--ink2);text-align:center}
@@ -81,9 +82,9 @@
   .dots{display:flex;gap:6px}
   .dots i{width:7px;height:7px;border-radius:50%;background:var(--rule);transition:background .3s}
   .dots i.on{background:var(--ink)}
-  .lovenote{position:relative;margin:26px auto 0;max-width:340px;background:#fffbe8;padding:18px 22px 16px;transform:rotate(1.6deg);box-shadow:0 12px 22px -16px rgba(40,25,10,.55);background-image:repeating-linear-gradient(transparent 0 29px,#e6dcc0 29px 30px);background-position:0 12px}
+  .lovenote{position:relative;margin:18px auto 0;max-width:330px;background:#fffbe8;padding:18px 22px 16px;transform:rotate(1.6deg);box-shadow:0 12px 22px -16px rgba(40,25,10,.55);background-image:repeating-linear-gradient(transparent 0 29px,#e6dcc0 29px 30px);background-position:0 12px}
   .lovenote::before{content:"";position:absolute;top:-10px;right:28px;width:70px;height:22px;transform:rotate(6deg);background:rgba(163,48,47,.22)}
-  .lovenote p{font-family:"Nanum Pen Script",cursive;font-size:27px;line-height:30px;margin:0;color:#2f2a6b}
+  .lovenote p{font-family:"Nanum Pen Script",cursive;font-size:25px;line-height:30px;margin:0;color:#2f2a6b}
   .lovenote .sig{text-align:right;margin-top:6px}
 
   /* ---------- now strip ---------- */
@@ -448,11 +449,12 @@
 
 <header class="hero">
   <div class="wrap">
-    <h1>Javi's week<br>in <i>Michigan</i></h1>
-    <p class="lede">I can't wait to see you. Bell's Diner, John Summit, and a whole week of us.</p>
+
 
     <div class="hero-grid">
-      <div>
+      <div class="hero-left">
+    <h1>Javi's week<br>in <i>Michigan</i></h1>
+      <p class="lede">I can't wait to see you. Bell's Diner, John Summit, and so many kisses.</p>
         <div class="ticket">
           <div class="t-head"><span>Delta · Main Basic</span><span>Passenger <b>Garcia / Javier D.</b></span></div>
           <div class="leg">
