@@ -1170,7 +1170,7 @@
   let C = {tiles:[], sel:[], solved:[], mist:4, guesses:[]};
   function cShuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
   function renderGTabs(){
-    $("gtabs").innerHTML=GAMES.map((g,i)=>`<button class="gt ${i===GI?"on":""}" data-i="${i}"><span>${i+1}</span>${g.tab}${S.wins[i]?" 💋":""}</button>`).join("");
+    $("gtabs").innerHTML=GAMES.map((g,i)=>`<button class="gt ${i===GI?"on":""}" data-i="${i}">Puzzle ${i+1}${S.wins[i]?" 💋":""}</button>`).join("");
     $("gtabs").querySelectorAll(".gt").forEach(b=>b.addEventListener("click",()=>{ GI=+b.dataset.i; GROUPS=GAMES[GI].groups; renderGTabs(); cInit(); }));
   }
   function cInit(){ C={tiles:cShuffle(GROUPS.flatMap(g=>g.w)), sel:[], solved:[], mist:4, guesses:[]}; $("cmsg").textContent=""; cRender(); }
